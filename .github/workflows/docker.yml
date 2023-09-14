@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -f Dockerfile -t ${CI_SHA} .
+          docker build -f Dockerfile -t ${CI_SHA_SHORT} .
 
       - name: Auto SemVer
         if: ${{ env.IS_RELEASE == 'true' }}
@@ -59,8 +59,8 @@ jobs:
       - name: Publish Docker Image
         if: steps.get-ver.outputs.created
         run: |
-          docker tag ${CI_SHA} ${REGISTRY}/${CI_REPOSITORY_OWNER_SLUG}/${CI_REPOSITORY_NAME_SLUG}:${VERSION/v/}
-          docker tag ${CI_SHA} ${REGISTRY}/${CI_REPOSITORY_OWNER_SLUG}/${CI_REPOSITORY_NAME_SLUG}:latest
+          docker tag ${CI_SHA_SHORT} ${REGISTRY}/${CI_REPOSITORY_OWNER_SLUG}/${CI_REPOSITORY_NAME_SLUG}:${VERSION/v/}
+          docker tag ${CI_SHA_SHORT} ${REGISTRY}/${CI_REPOSITORY_OWNER_SLUG}/${CI_REPOSITORY_NAME_SLUG}:latest
 
           docker push ${REGISTRY}/${CI_REPOSITORY_OWNER_SLUG}/${CI_REPOSITORY_NAME_SLUG}:${VERSION/v/}
           docker push ${REGISTRY}/${CI_REPOSITORY_OWNER_SLUG}/${CI_REPOSITORY_NAME_SLUG}:latest
