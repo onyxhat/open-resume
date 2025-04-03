@@ -50,9 +50,7 @@ jobs:
       - name: Build and Push Images
         run: |
           docker buildx bake --file docker-bake.hcl \
-            --set registry=${{ env.REGISTRY }} \
-            --set repository=${{ github.repository }} \
-            --set version=${{ steps.get-ver.outputs.version }} \
+            --set runner.tags=${{ env.REGISTRY }}/${{ github.repository }}:${{ steps.get-ver.outputs.version }} \
             --push
 
       - name: Create Release
